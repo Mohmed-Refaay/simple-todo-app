@@ -31,38 +31,37 @@ class TodoContainer extends React.Component {
   };
 
   handleChange = (id) => {
-    const clickedTodoItemIdex = this.state.todos.findIndex((todo) => {
-      return todo.id == id;
+    const clickedTodosItemIndex = this.state.todos.findIndex((todo) => {
+      return todo.id === id;
     });
-    const clickedCompletedTodoItemIdex = this.state.completedTodos.findIndex((todo) => {
-      return todo.id == id;
-    });
-    if (clickedTodoItemIdex >= 0) {
-      const completedTodoItem = this.state.todos[clickedTodoItemIdex];
-      completedTodoItem.completed = true;
+
+    const clickedCompletedItemIndex = this.state.completedTodos.findIndex((completedTodo) => completedTodo.id === id);
+    if (clickedTodosItemIndex >= 0) {
+      const clickedTodosItem = this.state.todos[clickedTodosItemIndex];
+      clickedTodosItem.completed = true;
+
       this.setState({
         todos: [
           ...this.state.todos.filter((todo) => {
             return todo.id !== id;
           }),
         ],
-        completedTodos: [...this.state.completedTodos, completedTodoItem],
+        completedTodos: [...this.state.completedTodos, clickedTodosItem],
       });
-      console.log(completedTodoItem);
     }
-    if (clickedCompletedTodoItemIdex >= 0) {
-      const unCompletedTodoItem = this.state.todos[clickedCompletedTodoItemIdex];
-      unCompletedTodoItem.completed = false;
+
+    if(clickedCompletedItemIndex >= 0) {
+      const clickedCompletedItem = this.state.completedTodos[clickedCompletedItemIndex];
+      clickedCompletedItem.completed = false;
       this.setState({
         todos: [
-          ...this.state.todos, unCompletedTodoItem
-        ],
+          ...this.state.todos,
+          clickedCompletedItem
+        ], 
         completedTodos: [
-          ...this.state.completedTodos.filter((completedTodo) => {
-            return completedTodo.id !== id;
-          })
+          ...this.state.completedTodos.filter((completedTodo) => completedTodo.id !== id)
         ]
-      });
+      })
     }
   };
 
@@ -72,6 +71,11 @@ class TodoContainer extends React.Component {
         ...this.state.todos.filter((todo) => {
           return todo.id !== id;
         }),
+      ],
+      completedTodos: [
+        ...this.state.completedTodos.filter(
+          (completedTodo) => completedTodo.id !== id
+        ),
       ],
     });
   };
